@@ -197,7 +197,7 @@ public class SerialPortActivity extends CordovaPlugin {
 		String [] values = data.split(",");
 		final byte [] str = new byte[values.length];
 		for (int i=0;i<values.length;i++) {
-			str[i] = Byte.valueOf(values[i]);
+			str[i] = (byte) (int)Integer.valueOf(values[i]);
 		}
 		//final byte[] str =data.split(",");
 		cordova.getThreadPool().execute(new Runnable() {
