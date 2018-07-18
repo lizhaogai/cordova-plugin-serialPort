@@ -22,7 +22,7 @@
         </config-file>
         <source-file src="src/android/api/SerialPort.java" target-dir="src/android_serialport_api"/>
         <source-file src="src/android/api/SerialPortFinder.java" target-dir="src/android_serialport_api"/>
-        <source-file src="src/android/MainApplication.java" target-dir="src/com/ionicframework/starter"/>
+        <source-file src="src/android/MainApplication.java" target-dir="src/io/cordova/hellocordova"/>
         <source-file src="src/android/SerialPortActivity.java" target-dir="src/android_serialport_api/sample"/>
         
         <source-file src="src/android/jni/Android.mk" target-dir="app/jni"/>
