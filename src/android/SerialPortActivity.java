@@ -14,7 +14,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.ionicframework.starter.Application;
+import io.cordova.hellocordova.MainApplication;
 
 import android.R.bool;
 import android_serialport_api.SerialPort;
@@ -23,7 +23,7 @@ import android_serialport_api.SerialPortFinder;
 public class SerialPortActivity extends CordovaPlugin {
 
 	private SerialPortFinder mSerialPortFinder = new SerialPortFinder();;
-	protected Application mApplication;
+	protected MainApplication mApplication;
 	protected SerialPort mSerialPort;
 	protected OutputStream mOutputStream;
 	private InputStream mInputStream;
@@ -79,7 +79,7 @@ public class SerialPortActivity extends CordovaPlugin {
 
 	@Override
 	public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
-		mApplication = (Application) cordova.getActivity().getApplication();
+		mApplication = (MainApplication) cordova.getActivity().getApplication();
 		
 		instance = this;
 		if (action.equals("getSerialPort")) {
