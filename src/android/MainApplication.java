@@ -7,7 +7,7 @@ import java.security.InvalidParameterException;
 import android_serialport_api.SerialPort;
 import android_serialport_api.SerialPortFinder;
 import org.apache.cordova.CallbackContext;
-public class Application extends android.app.Application {
+public class MainApplication extends android.app.Application {
 
 	public SerialPortFinder mSerialPortFinder = new SerialPortFinder();
 	private SerialPort mSerialPort = null;
