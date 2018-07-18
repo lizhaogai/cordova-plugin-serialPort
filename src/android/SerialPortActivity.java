@@ -191,7 +191,14 @@ public class SerialPortActivity extends CordovaPlugin {
 		return res;
 	}
 	public void emission(CordovaArgs args,final CallbackContext callbackContext) throws JSONException{
-		final byte[] str = args.getArrayBuffer(0);
+		String encoded = args.getString(0);
+		String data = new String(Base64.decode(encoded, Base64.DEFAULT));
+		String [] values = data.split(",");
+		final byte [] str = new byte[values.length];
+		for (int i=0;i<values.length;i++) {
+			str[i] = Byte.valueOf(values[i]);
+		}
+		//final byte[] str =data.split(",");
 		cordova.getThreadPool().execute(new Runnable() {
 			public void run() {
 				try {
