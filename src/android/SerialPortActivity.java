@@ -19,6 +19,7 @@ import io.cordova.hellocordova.MainApplication;
 import android.R.bool;
 import android_serialport_api.SerialPort;
 import android_serialport_api.SerialPortFinder;
+import android.util.Base64;
 
 public class SerialPortActivity extends CordovaPlugin {
 
