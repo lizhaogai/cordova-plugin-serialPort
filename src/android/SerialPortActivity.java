@@ -14,7 +14,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import io.cordova.hellocordova.MainApplication;
+import io.zhaixing.nevem.MainApplication;
 
 import android.R.bool;
 import android_serialport_api.SerialPort;
@@ -34,7 +34,7 @@ public class SerialPortActivity extends CordovaPlugin {
 	private String port;
 	private int Size=0;
 	private boolean isTimer=true;
-	private byte[] dateBuffer=new byte[64];
+	private byte[] dateBuffer=new byte[128];
 	private Long interval=(long) 0;
 	private class ReadThread extends Thread {
 		@Override
@@ -43,32 +43,25 @@ public class SerialPortActivity extends CordovaPlugin {
 			while (!isInterrupted()) {
 				int size;
 				try {
-					
-					byte[] buffer = new byte[64];
+
+					byte[] buffer = new byte[128-Size];
 					size = mInputStream.read(buffer);
 					interval=System.currentTimeMillis();
 					for(int i=0;i<size;i++){
 						dateBuffer[Size+i] = buffer[i];
 					};
 					Size+=size;
-					if (size > 0&&Size>0) {
-						if(isTimer){
-							isTimer=false;
-							final Timer timer = new Timer(); 
-							timer.schedule(new TimerTask(){
-								public void run(){
-									Long tsLong = System.currentTimeMillis();
-									if(tsLong-75>interval){
-										onDataReceived(dateBuffer, Size);
-										interval=(long) 0;
-										Size=0;
-										dateBuffer=new byte[64];
-										timer.cancel();
-										isTimer=true;
-									}
-								}
-							}, 75, 75);
-						}
+					if (Size>0) {
+						onDataReceived(dateBuffer, Size);
+						interval=(long) 0;
+						Size=0;
+						dateBuffer=new byte[128];
+					}
+
+					try{
+						Thread.sleep(80);
+					}catch(Exception e1){
+						e1.printStackTrace();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -77,11 +70,11 @@ public class SerialPortActivity extends CordovaPlugin {
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
 		mApplication = (MainApplication) cordova.getActivity().getApplication();
-		
+
 		instance = this;
 		if (action.equals("getSerialPort")) {
 			JSONArray resArr = new JSONArray();
@@ -137,8 +130,8 @@ public class SerialPortActivity extends CordovaPlugin {
 		});
 
 	}
-	
-	
+
+
 	protected void onDataReceived(final byte[] buffer, final int size) {
 		final byte[] dataBuffer=new byte[size];
 		for(int i=0;i<size;i++){
@@ -153,7 +146,7 @@ public class SerialPortActivity extends CordovaPlugin {
 		            callback.sendPluginResult(result);
 		            Size=0;
 		        }
-			
+
 			}
 		});
 	}
@@ -168,7 +161,7 @@ public class SerialPortActivity extends CordovaPlugin {
 		} else {
 			callbackContext.error("串口尚未打开");
 		}
-		
+
 	}
 	public void startRead(){
 		mOutputStream = mSerialPort.getOutputStream();
@@ -216,7 +209,7 @@ public class SerialPortActivity extends CordovaPlugin {
 				}
 			}
 		});
-		
+
 	}
 	public void closeSerialPort(CallbackContext callbackContext) {
 		if (mReadThread != null) {
